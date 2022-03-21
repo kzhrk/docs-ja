@@ -155,16 +155,16 @@ watch(
 
 <div class="options-api">
 
-`watch` is shallow by default: the callback will only trigger when the watched property has been assigned a new value - it won't trigger on nested property changes. If you want the callback to fire on all nested mutations, you need to use a deep watcher:
+デフォルトでは、`watch` はシャローです: コールバックは、ウォッチされているプロパティに新しい値が割り当てられたときのみトリガーされます - ネストされたプロパティの変更ではトリガーされません。もし、ネストされたすべての変更でコールバックを発生させたい場合は、ディープウォッチャーを使用する必要があります:
 
 ```js
 export default {
   watch: {
     someObject: {
       handler(newValue, oldValue) {
-        // Note: `newValue` will be equal to `oldValue` here
-        // on nested mutations as long as the object itself
-        // hasn't been replaced.
+        // 注: オブジェクト自体が置き換えられていない限り、
+        // ネストされた変異では
+        // `newValue` は `oldValue` と同じになります。
       },
       deep: true
     }
@@ -176,15 +176,15 @@ export default {
 
 <div class="composition-api">
 
-When you call `watch()` directly on a reactive object, it will implicitly create a deep watcher - the callback will be triggered on all nested mutations:
+リアクティブなオブジェクトに対して直接 `watch()` を呼び出すと、暗黙的にディープウォッチャーが生成されます - ネストされたすべてのミューテーションに対してコールバックがトリガーされます。
 
 ```js
 const obj = reactive({ count: 0 })
 
 watch(obj, (newValue, oldValue) => {
-  // fires on nested property mutations
-  // Note: `newValue` will be equal to `oldValue` here
-  // because they both point to the same object!
+  // ネストされたプロパティの変異で発火
+  // 注: ここで `newValue` は `oldValue` と同じになります
+  // なぜなら、どちらも同じオブジェクトを指しているからです!
 })
 
 obj.count++
