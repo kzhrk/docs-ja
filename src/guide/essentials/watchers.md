@@ -190,25 +190,25 @@ watch(obj, (newValue, oldValue) => {
 obj.count++
 ```
 
-This should be differentiated with a getter that returns a reactive object - in the latter case, the callback will only fire if the getter returns a different object:
+これは、リアクティブなオブジェクトを返す getter と区別する必要があります - 後者の場合、コールバックは getter が別のオブジェクトを返した場合にのみ起動されます。
 
 ```js
 watch(
   () => state.someObject,
   () => {
-    // fires only when state.someObject is replaced
+    // state.someObject が置換されたときのみ発生します
   }
 )
 ```
 
-You can, however, force the second case into a deep watcher by explicitly using the `deep` option:
+しかし、 `deep` オプションを明示的に使用することで、2 番目のケースを強制的にディープウォッチャーにすることができます。
 
 ```js
 watch(
   () => state.someObject,
   (newValue, oldValue) => {
-    // Note: `newValue` will be equal to `oldValue` here
-    // *unless* state.someObject has been replaced
+    // 注意: `newValue` は `oldValue` と等しくなる
+    // *ただし* state.someObjectが置換されていない場合のみ
   },
   { deep: true }
 )
@@ -216,17 +216,17 @@ watch(
 
 </div>
 
-:::warning Use with Caution
-Deep watch requires traversing all nested properties in the watched object, and can be expensive when used on large data structures. Use it only when necessary and beware of the performance implications.
+:::warning 使用上の注意
+ディープウォッチはウォッチされるオブジェクトのネストされたプロパティをすべて監視する必要があり、大きなデータ構造で使用すると処理が重くなることがあります。必要な場合のみ使用し、パフォーマンスへの影響に注意してください。
 :::
 
 <div class="options-api">
 
-## Eager Watchers \*
+## 熱心なウォッチャー \*
 
-`watch` is lazy by default: the callback won't be called until the watched source has changed. But in some cases we may want the same callback logic to be run eagerly - for example, we may want to fetch some initial data, and then re-fetch the data whenever relevant state changes.
+デフォルトでは `watch` は遅延型: 監視対象のソースが変更されるまでコールバックは呼ばれない。しかし、同じコールバックロジックを熱心に実行したい場合もあります - 例えば、初期データをフェッチして、関連する状態が変化するたびにデータを再フェッチしたい場合があります。
 
-We can force a watcher's callback to be executed immediately by declaring it using an object with a `handler` function and the `immediate: true` option:
+`handler` 関数と `immediate: true` オプションを持つオブジェクトを使用して宣言することで、ウォッチャーのコールバックを即座に強制的に実行させることができます。
 
 ```js
 export default {
@@ -234,9 +234,9 @@ export default {
   watch: {
     question: {
       handler(newQuestion) {
-        // this will be run immediately on component creation.
+        // ここはコンポーネント作成時に即座に実行されます
       },
-      // force eager callback execution
+      // 熱心なコールバックの実行を強制する
       immediate: true
     }
   }
